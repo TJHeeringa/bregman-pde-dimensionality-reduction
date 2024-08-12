@@ -1,0 +1,30 @@
+name: sparse-manifold-learning
+channels:
+  - conda-forge
+  - pytorch
+dependencies:
+  - pytest-cov
+  - pytest
+  - python=3.10
+  - pylint
+  - black
+  - autopep8
+  - flake8
+  - jupyter
+  - pytorch
+  - ca-certificates
+  - openssl
+  - matplotlib
+  - tqdm
+  - certifi
+  - h5py
+  - wandb
+  - libsqlite
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pip
+  - python-igraph
+  - pip:
+    - bregman-learning
+    - torch-simplify

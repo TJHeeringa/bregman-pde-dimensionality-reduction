@@ -1,0 +1,33 @@
+program: src/training/reaction_diffusion/train.py
+method: bayes
+name: reaction_diffusion (adabreg rc=0.1)
+description: Sweep that find the best (potentially sparse) ReLU autoencoder using the optimizers AdaBreg.
+project: sparse-manifold-learning
+metric:
+  name: Loss (training, best)
+  goal: minimize
+parameters:
+  learning_rate:
+    distribution: "log_uniform"
+    min: -11.5
+    max: -2.3
+  regularization_constant:
+    value: 0.1
+  optimizer:
+    value: "AdaBreg"
+  epochs:
+    value: 5000
+  epoch_log_interval:
+    value: 20
+  batch_size_test:
+    value: 64
+  batch_size_train:
+    value: 64
+  encoder_layers:
+    value: [10000, 200, 100, 10]
+  decoder_layers:
+    value: [10, 100, 200, 10000]
+  initial_sparsity:
+    value: 0.2
+  sparsity_preset:
+    value: "nuclear"

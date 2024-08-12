@@ -1,0 +1,32 @@
+program: src/training/advection/train.py
+method: bayes
+name: advection (adabreg fixed)
+description: Sweep that find the best (potentially sparse) ReLU autoencoder using the optimizers AdaBreg.
+project: sparse-manifold-learning
+metric:
+  name: Loss (training)
+  goal: minimize
+parameters:
+  learning_rate:
+    min: 1.39e-3
+    max: 1.41e-3
+  regularization_constant:
+    value: 0.1
+  optimizer:
+    value: "AdaBreg"
+  epochs:
+    value: 1000
+  epoch_log_interval:
+    value: 10
+  batch_size_test:
+    value: 32
+  batch_size_train:
+    value: 32
+  encoder_layers:
+    value: [256, 128, 64, 30]
+  decoder_layers:
+    value: [30, 64, 128, 256]
+  initial_sparsity:
+    value: 0.2
+  sparsity_preset:
+    value: "nuclear"

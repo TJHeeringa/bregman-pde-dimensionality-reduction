@@ -1,0 +1,30 @@
+program: src/training/advection/train.py
+method: bayes
+name: advection (sgd fixed)
+description: Sweep that find the best dense ReLU autoencoder using the commonly used optimizers SGD.
+project: sparse-manifold-learning
+metric:
+  name: Loss (training)
+  goal: minimize
+parameters:
+  learning_rate:
+    min: 4.49e-5
+    max: 4.51e-5
+  regularization_constant:
+    value: 0
+  optimizer:
+    value: "SGD"
+  epochs: 
+    value: 1000
+  epoch_log_interval:
+    value: 10
+  batch_size_test: 
+    value: 32
+  batch_size_train: 
+    value: 32
+  encoder_layers:
+    value: [256, 128, 64, 30]
+  decoder_layers:
+    value: [30, 64, 128, 256]
+  initial_sparsity:
+    value: 1

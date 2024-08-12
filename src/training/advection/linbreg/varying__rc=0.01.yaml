@@ -1,0 +1,35 @@
+program: src/training/advection/train.py
+method: bayes
+name: advection (linbreg rc=0.01)
+description: Sweep that find the best (potentially sparse) ReLU autoencoder using the optimizers LinBreg.
+project: sparse-manifold-learning
+metric:
+  name: Loss (training, best)
+  goal: minimize
+parameters:
+  learning_rate:
+    distribution: "log_uniform"
+    min: -11.5
+    max: -4.6    
+  regularization_constant:
+    value: 0.01
+  optimizer:
+    value: "LinBreg"
+  epochs:
+    value: 1000
+  epoch_log_interval:
+    value: 10
+  batch_size_test:
+    value: 32
+  batch_size_train:
+    value: 32
+  encoder_layers:
+    value: [256, 128, 64, 30]
+  decoder_layers:
+    value: [30, 64, 128, 256]
+  initial_sparsity:
+    value: 0.2
+  momentum:
+    value: 0
+  sparsity_preset:
+    value: "nuclear"

@@ -1,0 +1,35 @@
+program: src/training/diffusion/train.py
+method: bayes
+name: diffusion (linbreg rc=1)
+description: Sweep that find the best (potentially sparse) ReLU autoencoder using the optimizers LinBreg.
+project: sparse-manifold-learning
+metric:
+  name: Loss (training, best)
+  goal: minimize
+parameters:
+  learning_rate:
+    distribution: "log_uniform"
+    min: -9.2
+    max: -4.6    
+  regularization_constant:
+    value: 1.0
+  optimizer:
+    value: "LinBreg"
+  epochs:
+    value: 5000
+  epoch_log_interval:
+    value: 20
+  batch_size_test:
+    value: 64
+  batch_size_train:
+    value: 64
+  encoder_layers:
+    value: [101, 50, 25, 5]
+  decoder_layers:
+    value: [5, 25, 50, 101]
+  initial_sparsity:
+    value: 0.2
+  momentum:
+    value: 0
+  sparsity_preset:
+    value: "nuclear"

@@ -1,0 +1,11 @@
+#!/bin/bash
+#SBATCH -c 4
+#SBATCH --time=04:00:00
+#SBATCH --partition=mia
+#SBATCH --output=job_%j.out
+
+module load nvidia/cuda-11.6
+module load singularity/3.9.5
+
+source activate sparse-manifold-learning-3.10
+wandb agent --count=1 $1
