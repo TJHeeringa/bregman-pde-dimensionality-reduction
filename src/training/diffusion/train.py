@@ -1,13 +1,12 @@
-from pathlib import Path
 import sys
+from pathlib import Path
 
 import wandb
 
 sys.path.insert(0, str(Path.cwd()))
 
-from src.training.train import train  # noqa: E402
 from src.data.generate_datasets import generate_diffusion_dataset  # noqa: E402
-
+from src.training.train import train  # noqa: E402
 
 TRAIN_PARAMETERS = [0.1, 0.5, 1]
 VALIDATION_PARAMETERS = [0.8]

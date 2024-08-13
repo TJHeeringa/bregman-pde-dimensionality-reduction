@@ -2,25 +2,21 @@ from pathlib import Path
 
 import torch
 
-from src.data.databases.diffusion_1d_database import (
-    Diffusion1DDatabase,
-    Diffusion1DParamSet,
-)
 from src.data.databases.advection_1d_database import (
     Advection1DAnalyticDatabase,
     Advection1DParamSet,
 )
+from src.data.databases.diffusion_1d_database import (
+    Diffusion1DDatabase,
+    Diffusion1DParamSet,
+)
 from src.data.databases.pde_database import Config
 from src.data.databases.reaction_diffusion_2d_database import (
-    ReactionDiffusion2DParamSet,
     ReactionDiffusion2DDatabase,
+    ReactionDiffusion2DParamSet,
 )
-from src.data.initial_conditions.gaussian import (
-    Gaussian,
-    GaussianParamSet,
-)
-from src.data.initial_conditions.spiral import SpiralParamSet, Spiral
-
+from src.data.initial_conditions.gaussian import Gaussian, GaussianParamSet
+from src.data.initial_conditions.spiral import Spiral, SpiralParamSet
 
 BASE_DIFFUSION_CONFIG = Config(
     Nt=5001,

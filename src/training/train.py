@@ -1,13 +1,12 @@
 import copy
 import math
-from pathlib import Path
 import sys
-
-import wandb
-import torch
-from tqdm import tqdm
+from pathlib import Path
 
 import bregman
+import torch
+import wandb
+from tqdm import tqdm
 
 sys.path.insert(0, str(Path.cwd()))
 

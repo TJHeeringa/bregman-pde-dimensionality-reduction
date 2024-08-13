@@ -1,6 +1,6 @@
 import typing
 
-from bregman import Null, L12, Nuclear
+from bregman import L12, Nuclear, Null
 
 from .get_bias import get_bias
 

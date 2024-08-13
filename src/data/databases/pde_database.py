@@ -1,9 +1,8 @@
-from typing import Any
-from dataclasses import dataclass, asdict, field
-from pathlib import Path
 import json
-
+from dataclasses import asdict, dataclass, field
 from os import PathLike
+from pathlib import Path
+from typing import Any
 
 import torch
 

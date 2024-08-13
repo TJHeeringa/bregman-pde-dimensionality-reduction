@@ -1,14 +1,13 @@
-from pathlib import Path
 import sys
+from pathlib import Path
 
 import torch
 import wandb
 
 sys.path.insert(0, str(Path.cwd()))
 
-from src.training.train import train  # noqa: E402
 from src.data.generate_datasets import generate_advection_dataset  # noqa: E402
-
+from src.training.train import train  # noqa: E402
 
 TRAIN_PARAMETERS = torch.tensor([0.6, 0.9, 1.2])
 VALIDATION_PARAMETERS = torch.tensor([0.75])

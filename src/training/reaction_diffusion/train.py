@@ -1,14 +1,13 @@
-from pathlib import Path
 import sys
+from pathlib import Path
 
 import torch.utils.data
 import wandb
 
 sys.path.insert(0, str(Path.cwd()))
 
-from src.training.train import train  # noqa: E402
 from src.data.generate_datasets import generate_reaction_diffusion_dataset  # noqa: E402
-
+from src.training.train import train  # noqa: E402
 
 if __name__ == "__main__":
     # If called by wandb.agent, as below,
