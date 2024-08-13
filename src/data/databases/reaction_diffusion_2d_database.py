@@ -28,16 +28,12 @@ class ReactionDiffusion2DDatabase(PdeDatabase):
 
     def initialize(self):
         self.data = torch.zeros((self.config.Nt, 2, self.config.Nx, self.config.Ny))
-        self.data[0, :] = self.initial_condition(self.config.initial_condition_params)(
-            self.meshgrid_x, self.meshgrid_y
-        )
+        self.data[0, :] = self.initial_condition(self.config.initial_condition_params)(self.meshgrid_x, self.meshgrid_y)
 
     def _laplacian2d_b(self, f):
         lap = torch.zeros_like(f)
 
-        lap[1:-1, 1:-1] = (
-            f[0:-2, 1:-1] - 2 * f[1:-1, 1:-1] + f[2:, 1:-1]
-        ) / self.config.dx**2 + (
+        lap[1:-1, 1:-1] = (f[0:-2, 1:-1] - 2 * f[1:-1, 1:-1] + f[2:, 1:-1]) / self.config.dx**2 + (
             f[1:-1, 0:-2] - 2 * f[1:-1, 1:-1] + f[1:-1, 2:]
         ) / self.config.dy**2
 
@@ -50,30 +46,24 @@ class ReactionDiffusion2DDatabase(PdeDatabase):
         return lap
 
     def _laplacian2d(self, f):
-        laplacian_f_y = (
-            torch.diff(
-                f,
-                n=2,
-                dim=0,
-                # prepend=torch.zeros_like(f[0, :]).reshape(1, -1),
-                # append=torch.zeros_like(f[-1, :]).reshape(1, -1)
-                prepend=f[0, :].reshape(1, -1),
-                append=f[-1, :].reshape(1, -1),
-            )
-            / (self.config.dy**2)
-        )
-        laplacian_f_x = (
-            torch.diff(
-                f,
-                n=2,
-                dim=1,
-                # prepend=torch.zeros_like(f[:, 0]).reshape(-1, 1),
-                # append=torch.zeros_like(f[:, -1]).reshape(-1, 1)
-                prepend=f[:, 0].reshape(-1, 1),
-                append=f[:, -1].reshape(-1, 1),
-            )
-            / (self.config.dx**2)
-        )
+        laplacian_f_y = torch.diff(
+            f,
+            n=2,
+            dim=0,
+            # prepend=torch.zeros_like(f[0, :]).reshape(1, -1),
+            # append=torch.zeros_like(f[-1, :]).reshape(1, -1)
+            prepend=f[0, :].reshape(1, -1),
+            append=f[-1, :].reshape(1, -1),
+        ) / (self.config.dy**2)
+        laplacian_f_x = torch.diff(
+            f,
+            n=2,
+            dim=1,
+            # prepend=torch.zeros_like(f[:, 0]).reshape(-1, 1),
+            # append=torch.zeros_like(f[:, -1]).reshape(-1, 1)
+            prepend=f[:, 0].reshape(-1, 1),
+            append=f[:, -1].reshape(-1, 1),
+        ) / (self.config.dx**2)
         return laplacian_f_x + laplacian_f_y
 
     def forward(self, n: int, t: float):

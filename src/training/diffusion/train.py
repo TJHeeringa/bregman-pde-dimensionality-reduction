@@ -1,6 +1,5 @@
 from pathlib import Path
 import sys
-import torch
 
 import wandb
 
@@ -18,8 +17,6 @@ TEST_PARAMETERS = [0.6]
 if __name__ == "__main__":
     # If called by wandb.agent, as below,
     # this config will be set by Sweep Controller
-    #torch.set_default_dtype(torch.float64)
-
     config = wandb.config
 
     print(config)
@@ -28,10 +25,4 @@ if __name__ == "__main__":
     test_dataset = generate_diffusion_dataset(TEST_PARAMETERS)
     validation_dataset = generate_diffusion_dataset(VALIDATION_PARAMETERS)
 
-    train(
-        train_dataset,
-        test_dataset,
-        validation_dataset,
-        Path("models/diffusion"),
-        config
-    )
+    train(train_dataset, test_dataset, validation_dataset, Path("models/diffusion"), config)

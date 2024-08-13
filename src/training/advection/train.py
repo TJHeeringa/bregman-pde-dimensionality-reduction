@@ -10,7 +10,7 @@ from src.training.train import train  # noqa: E402
 from src.data.generate_datasets import generate_advection_dataset  # noqa: E402
 
 
-TRAIN_PARAMETERS = torch.tensor([0.6, 0.9,  1.2])
+TRAIN_PARAMETERS = torch.tensor([0.6, 0.9, 1.2])
 VALIDATION_PARAMETERS = torch.tensor([0.75])
 TEST_PARAMETERS = torch.tensor([1.05])
 
@@ -28,10 +28,4 @@ if __name__ == "__main__":
     test_dataset = generate_advection_dataset(TEST_PARAMETERS)
     validation_dataset = generate_advection_dataset(VALIDATION_PARAMETERS)
 
-    train(
-        train_dataset,
-        test_dataset,
-        validation_dataset,
-        Path("models/advection"),
-        config
-    )
+    train(train_dataset, test_dataset, validation_dataset, Path("models/advection"), config)

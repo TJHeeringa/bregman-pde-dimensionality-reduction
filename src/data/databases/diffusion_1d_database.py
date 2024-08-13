@@ -19,10 +19,7 @@ class Diffusion1DDatabase(PdeDatabase):
         self.c = self.config.pde_params.diffusion * self.dt / self.config.dx**2
         self.c_tilde = 1 - 2 * self.c
         if self.c >= 0.5:
-            print(
-                f"Warning: c value is {self.c}, which is bigger than 0.5. "
-                f"This means the solution will be unstable."
-            )
+            print(f"Warning: c value is {self.c}, which is bigger than 0.5. " f"This means the solution will be unstable.")
 
     def parameter_set(self):
         return Diffusion1DParamSet(diffusion=self.diffusion)
@@ -33,9 +30,7 @@ class Diffusion1DDatabase(PdeDatabase):
 
     def initialize(self):
         self.data = torch.zeros((self.config.Nt, self.config.Nx))
-        self.data[0, :] = self.initial_condition(self.config.initial_condition_params)(
-            self.domain
-        )
+        self.data[0, :] = self.initial_condition(self.config.initial_condition_params)(self.domain)
 
     def forward(self, n: int, t: float):
         """
@@ -45,6 +40,4 @@ class Diffusion1DDatabase(PdeDatabase):
 
         Returns:
         """
-        self.data[n, 1:-1] = self.c_tilde * self.data[n - 1, 1:-1] + self.c * (
-            self.data[n - 1, 0:-2] + self.data[n - 1, 2:]
-        )
+        self.data[n, 1:-1] = self.c_tilde * self.data[n - 1, 1:-1] + self.c * (self.data[n - 1, 0:-2] + self.data[n - 1, 2:])

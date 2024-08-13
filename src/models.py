@@ -1,15 +1,11 @@
 import igraph
 import torch
 
-from src.utils.get_weights_linear import get_weights_linear
+from src.utils import get_weights_linear
 
 
 class DeepAutoEncoder(torch.nn.Module):
-    def __init__(
-        self,
-        encoder_layers: list[int],
-        decoder_layers: list[int]
-    ):
+    def __init__(self, encoder_layers: list[int], decoder_layers: list[int]):
         super(DeepAutoEncoder, self).__init__()
         # latent dimension must match
         assert encoder_layers[-1] == decoder_layers[0]
@@ -23,13 +19,9 @@ class DeepAutoEncoder(torch.nn.Module):
         num_of_relu_needed = len(encoder_layers) - 2
         shifted_encoder_layers = encoder_layers[1:] + encoder_layers[:1]
         layers = []
-        for k, (current_width, next_width) in enumerate(
-            zip(encoder_layers, shifted_encoder_layers)
-        ):
+        for k, (current_width, next_width) in enumerate(zip(encoder_layers, shifted_encoder_layers)):
             if k <= num_of_relu_needed - 1:
-                layers.extend(
-                    [torch.nn.Linear(current_width, next_width), torch.nn.ReLU()]
-                )
+                layers.extend([torch.nn.Linear(current_width, next_width), torch.nn.ReLU()])
             elif k <= num_of_relu_needed:
                 layers.append(torch.nn.Linear(current_width, next_width))
         self.encoder = torch.nn.Sequential(*layers)
@@ -38,13 +30,9 @@ class DeepAutoEncoder(torch.nn.Module):
         num_of_relu_needed = len(decoder_layers) - 2
         shifted_decoder_layers = decoder_layers[1:] + decoder_layers[:1]
         layers = []
-        for k, (current_width, next_width) in enumerate(
-            zip(decoder_layers, shifted_decoder_layers)
-        ):
+        for k, (current_width, next_width) in enumerate(zip(decoder_layers, shifted_decoder_layers)):
             if k <= num_of_relu_needed - 1:
-                layers.extend(
-                    [torch.nn.Linear(current_width, next_width), torch.nn.ReLU()]
-                )
+                layers.extend([torch.nn.Linear(current_width, next_width), torch.nn.ReLU()])
             elif k <= num_of_relu_needed:
                 layers.append(torch.nn.Linear(current_width, next_width))
         self.decoder = torch.nn.Sequential(*layers)
@@ -56,9 +44,7 @@ class DeepAutoEncoder(torch.nn.Module):
     def latent_size(self, direction="encoder spectral"):
         match direction:
             case "encoder spectral":
-                return torch.count_nonzero(
-                    torch.linalg.svdvals(self.encoder[-1].weight)
-                )
+                return torch.count_nonzero(torch.linalg.svdvals(self.encoder[-1].weight))
             case "decoder spectral":
                 return torch.count_nonzero(torch.linalg.svdvals(self.decoder[0].weight))
             case "decoder row":
@@ -88,6 +74,7 @@ class DeepAutoEncoder(torch.nn.Module):
         Returns:
             List with colour, where the first element corresponds to the first vertex etc.
         """
+
         def color_vertex(index: int, vertex_: igraph.Vertex):
             if index < self.encoder_layers[0]:
                 return "blue"
@@ -147,6 +134,6 @@ class DeepAutoEncoder(torch.nn.Module):
             "vertex_size": 10,
             "edge_arrow_size": 0.1,
             "vertex_color": self._color_vertices(graph.vs),
-            "edge_color": "#778899"
+            "edge_color": "#778899",
         }
         return igraph.plot(graph, save_to, layout=layout, **visual_style)

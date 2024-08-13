@@ -42,9 +42,7 @@ class Config:
         self.Nd = 1
 
         if self.ymin is not None or self.ymax is not None or self.Ny is not None:
-            assert (
-                self.ymin is not None and self.ymax is not None and self.Ny is not None
-            )
+            assert self.ymin is not None and self.ymax is not None and self.Ny is not None
             assert self.ymin <= self.ymax
             assert self.Ny > 1
             self.dy = (self.ymax - self.ymin) / (self.Ny - 1)
@@ -52,28 +50,18 @@ class Config:
 
     def to_json(self) -> str:
         return json.dumps(
-            asdict(
-                self, dict_factory=lambda x: {k: v for (k, v) in x if v is not None}
-            ),
+            asdict(self, dict_factory=lambda x: {k: v for (k, v) in x if v is not None}),
             cls=TorchEncoder,
             indent=4,
         )
 
     @classmethod
     def from_json(cls, json_):
-        return cls(
-            **{
-                k: v
-                for (k, v) in json.loads(json_).items()
-                if k not in ["Nd", "dt", "dx", "dy"]
-            }
-        )
+        return cls(**{k: v for (k, v) in json.loads(json_).items() if k not in ["Nd", "dt", "dx", "dy"]})
 
 
 class PdeDatabase:
-    def __init__(
-        self, initial_condition, config: Config, storage_path: str | PathLike[str]
-    ):
+    def __init__(self, initial_condition, config: Config, storage_path: str | PathLike[str]):
         self.initial_condition = initial_condition
         self._config = config
         self.storage_path = storage_path

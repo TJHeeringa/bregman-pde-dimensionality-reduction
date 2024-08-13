@@ -37,10 +37,7 @@ def train(train_dataset, test_dataset, validation_dataset, model_storage_folder,
         )
 
         # define network to use
-        model = bregman.AutoEncoder(
-            encoder_layers=config.encoder_layers,
-            decoder_layers=config.decoder_layers
-        )
+        model = bregman.AutoEncoder(encoder_layers=config.encoder_layers, decoder_layers=config.decoder_layers)
 
         # initialize weights and biases
         model.apply(init_linear)
@@ -99,10 +96,7 @@ def train(train_dataset, test_dataset, validation_dataset, model_storage_folder,
         for epoch in range(1, config.epochs + 1):
             if epoch % 20 == 1:
                 print(50 * "-")
-                print(
-                    f"epochs {epoch} to {min(epoch + 19, config.epochs)} "
-                    f"of the {config.epochs} total epochs"
-                )
+                print(f"epochs {epoch} to {min(epoch + 19, config.epochs)} " f"of the {config.epochs} total epochs")
                 print(50 * "-")
             best_model_updated = False
 
@@ -163,8 +157,8 @@ def train(train_dataset, test_dataset, validation_dataset, model_storage_folder,
                     "Latent dimension (post)": model.latent_size("latent POD", 1e-8),
                     "Latent dimension (best)": best_model.latent_size("minimal"),
                     "Latent dimension (best post)": best_model.latent_size("latent POD", 1e-8),
-                    "AIC/2": model.latent_size("minimal")+math.log(train_loss, 10),
-                    "AIC/2 (best)": best_model.latent_size("minimal")+math.log(best_training_loss, 10),
+                    "AIC/2": model.latent_size("minimal") + math.log(train_loss, 10),
+                    "AIC/2 (best)": best_model.latent_size("minimal") + math.log(best_training_loss, 10),
                 }
                 if epoch == config.epochs:
                     pruned_model = bregman.simplify(bregman.latent_pod(best_model, 1e-8))
@@ -184,8 +178,6 @@ def train(train_dataset, test_dataset, validation_dataset, model_storage_folder,
                     log_dict["Latent dimension (pruned)"] = pruned_model.latent_size("minimal")
 
                 wandb.log(log_dict, step=epoch)
-
-
 
         # create folder for models to be stored, if it doesn't already exist
         model_storage_folder.mkdir(parents=True, exist_ok=True)

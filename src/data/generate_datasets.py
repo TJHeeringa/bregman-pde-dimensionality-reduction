@@ -26,9 +26,7 @@ BASE_DIFFUSION_CONFIG = Config(
     Nt=5001,
     T=1,
     pde_params=None,
-    initial_condition_params=GaussianParamSet(
-        mu=torch.tensor([0]), sigma=torch.tensor([0.02])
-    ),
+    initial_condition_params=GaussianParamSet(mu=torch.tensor([0]), sigma=torch.tensor([0.02])),
     xmin=-1,
     xmax=1,
     Nx=101,
@@ -38,9 +36,7 @@ BASE_ADVECTION_CONFIG = Config(
     Nt=200,
     T=1,
     pde_params=None,
-    initial_condition_params=GaussianParamSet(
-        mu=torch.tensor([0.2]), sigma=torch.tensor([1e-3])
-    ),
+    initial_condition_params=GaussianParamSet(mu=torch.tensor([0.2]), sigma=torch.tensor([1e-3])),
     xmin=0,
     xmax=2,
     Nx=256,
@@ -60,9 +56,7 @@ BASE_REACTION_DIFFUSION_CONFIG = Config(
 )
 
 
-def generate_diffusion_dataset(
-    parameters, base_storage_path=Path("data/diffusion"), return_stacked=False
-):
+def generate_diffusion_dataset(parameters, base_storage_path=Path("data/diffusion"), return_stacked=False):
     databases = []
     for diff in parameters:
         config_ = BASE_DIFFUSION_CONFIG
@@ -78,18 +72,14 @@ def generate_diffusion_dataset(
         databases.append(database)
 
     # The [0:-1:20] is there to subsample every 20th point
-    stacked_datasets = torch.vstack(
-        [database.data[0:-1:20, :] for database in databases]
-    )
+    stacked_datasets = torch.vstack([database.data[0:-1:20, :] for database in databases])
     if return_stacked:
         return stacked_datasets
 
     return torch.utils.data.TensorDataset(stacked_datasets)
 
 
-def generate_advection_dataset(
-    parameters, base_storage_path=Path("data/advection"), return_stacked=False
-):
+def generate_advection_dataset(parameters, base_storage_path=Path("data/advection"), return_stacked=False):
     databases = []
     for adv in parameters:
         config_ = BASE_ADVECTION_CONFIG
@@ -134,8 +124,6 @@ def generate_reaction_diffusion_dataset(
         return database
 
     if u_only:
-        return torch.utils.data.TensorDataset(
-            database.data[:, 0, :, :].view(database.config.Nt, -1)
-        )
+        return torch.utils.data.TensorDataset(database.data[:, 0, :, :].view(database.config.Nt, -1))
 
     return torch.utils.data.TensorDataset(database.data.view(database.config.Nt, -1))

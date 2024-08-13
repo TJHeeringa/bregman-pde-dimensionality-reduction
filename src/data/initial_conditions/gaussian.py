@@ -46,6 +46,4 @@ class Gaussian:
             mahalanobis_sqrd = torch.dot(delta, torch.matmul(delta, self.inv_sigma))
 
         pi_constant = (2 * torch.tensor(torch.pi)) ** self.dim
-        return (
-            1 / torch.sqrt(pi_constant * self.det) * torch.exp(-0.5 * mahalanobis_sqrd)
-        )
+        return 1 / torch.sqrt(pi_constant * self.det) * torch.exp(-0.5 * mahalanobis_sqrd)
